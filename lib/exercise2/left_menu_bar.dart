@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:homework2/common/avatar.dart';
-import 'package:homework2/exercise2/newFeed.dart';
+import 'package:homework2/common/const/avatar.dart';
+import 'package:homework2/exercise2/issue_page/page/issue_page.dart';
+import 'package:homework2/exercise2/issue_page/page/newFeed.dart';
 import 'package:homework2/exercise2/report_page.dart';
 
-import 'package:homework2/module/personal_setting.dart';
+import 'package:homework2/models/personal_setting.dart';
 
 import 'package:homework2/exercise2/profile_page.dart';
 
@@ -98,7 +99,7 @@ class _LeftMenuBarState extends State<LeftMenuBar> {
         }
         else if (personalSetting.select =='Issue'){
           Navigator.of(context).push(
-            MaterialPageRoute(builder: (_)=>NewFeedPage(),
+            MaterialPageRoute(builder: (_)=>IssuePage(),
             ),
           );
         }

@@ -56,7 +56,7 @@ class MyTextField2 extends StatelessWidget {
         Visibility(
           visible: labelText != null,
           child: Container(
-            margin: EdgeInsets.only(bottom: 4),
+            margin: EdgeInsets.only(bottom: 4, left: 16),
             child: Text(
               labelText ?? '',
               style: TextStyle(
@@ -67,7 +67,7 @@ class MyTextField2 extends StatelessWidget {
             ),
           ),
         ),
-        Padding(padding: EdgeInsets.symmetric(horizontal: 16,vertical: 8),
+        Padding(padding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
           child: TextField(
             controller: controller,
             autofocus: autoFocus,

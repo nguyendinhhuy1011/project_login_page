@@ -1,28 +1,30 @@
 import 'package:flutter/material.dart';
 
-class Mybutton extends StatefulWidget {
+class MyButton extends StatefulWidget {
   final String textButton;
   final double heightBtn;
   final double widthBtn;
   final Color backgroundColor;
   final Color textColor;
+  final bool enable;
   final VoidCallback onTap;
 
-  const Mybutton({
+  const MyButton({
     super.key,
     required this.textButton,
     this.heightBtn = 48,
     this.widthBtn = double.infinity,
     this.backgroundColor = Colors.red,
     this.textColor = Colors.white,
+    this.enable =true,
     required this.onTap,
   });
 
   @override
-  State<Mybutton> createState() => _MybuttonState();
+  State<MyButton> createState() => _MyButtonState();
 }
 
-class _MybuttonState extends State<Mybutton> {
+class _MyButtonState extends State<MyButton> {
 
   var lock =false;
 
@@ -30,7 +32,7 @@ class _MybuttonState extends State<Mybutton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (!lock){
+        if (!lock && widget.enable){
           setState(() {
             lock =true;
             widget.onTap();
@@ -49,7 +51,7 @@ class _MybuttonState extends State<Mybutton> {
         height: widget.heightBtn,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: lock ? Colors.teal :widget.backgroundColor,
+          color: (lock || !widget.enable) ? Colors.teal :widget.backgroundColor,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Text(

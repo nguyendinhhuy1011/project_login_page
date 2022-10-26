@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:homework2/common/avatar.dart';
-import 'package:homework2/common/build_button.dart';
+import 'package:homework2/common/const/avatar.dart';
 import 'package:homework2/exercise2/left_menu_bar.dart';
 
-import '../common/MyTextField2.dart';
+import '../common/const/MyTextField2.dart';
+import '../common/const/build_button.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -64,7 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
               SizedBox(
                 height: 20,
               ),
-              Mybutton(textButton: 'Save', onTap: () {
+              MyButton(textButton: 'Save', onTap: () {
                 showLeftMenuBar();
               })
             ],

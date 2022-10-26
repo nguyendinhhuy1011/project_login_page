@@ -45,5 +45,9 @@
 	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>App cần truy cập thư viện ảnh để cập nhật thông tin. Ảnh sẽ không được chia sẻ nếu không có sự cho phép của bạn</string>
+	<key>NSCameraUsageDescription</key>
+    <string>App cần truy cập Camera để cập nhật thông tin. Ảnh sẽ không được chia sẻ nếu không có sự cho phép của bạn</string>
 </dict>
 </plist>
