@@ -43,7 +43,6 @@ class _LeftMenuBarState extends State<LeftMenuBar> {
       ),
       width: 350,
       height: 600,
-      margin: EdgeInsets.only(right: 32,),
       child: Scaffold(
         body: Column(
           children: [
@@ -108,7 +107,7 @@ class _LeftMenuBarState extends State<LeftMenuBar> {
         color: Colors.white54,
         child: Column(
           children: [
-            Padding(padding: EdgeInsets.symmetric(horizontal: 16,vertical: 16),
+            Padding(padding: EdgeInsets.symmetric(horizontal: 16,vertical: 8),
               child: Row(
                 children: [
                   personalSetting.icon,

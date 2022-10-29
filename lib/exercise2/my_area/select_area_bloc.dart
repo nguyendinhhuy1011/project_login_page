@@ -8,10 +8,11 @@ import '../../models/area.dart';
 
 class SelectAreaBloc {
 
-  final streamController = StreamController<List<Area>>();
-  final list = <Area>[];
-  final listFilter = <Area>[];
-  String city = "";
+  final streamController = StreamController<List<Area>>.broadcast();
+  final _list = <Area>[];
+  final _listFilter = <Area>[];
+  // var isCity = true;
+  Area? citySelected;
 
   Stream get stream => streamController.stream;
 
@@ -21,9 +22,13 @@ class SelectAreaBloc {
 
   Future getCities()async{
     apiService.getCities().then((value) {
-      list.clear();
-      list.addAll(value);
-      streamController.add(list);
+      _list.clear();
+      _listFilter.clear();
+      _list.addAll(value);
+      _listFilter.addAll(value);
+      
+      print('selectAreaBloc.getCities ${value.length}');
+      streamController.add(_listFilter);
     }).catchError((e){
       print('e: ${e.toString()}');
       ToastOverlay(e);
@@ -31,18 +36,23 @@ class SelectAreaBloc {
   }
 
   Future getDistrict({required String cityId})async{
+
     apiService.getDistrict(cityId: cityId).then((value) {
-      listFilter.clear();
-      listFilter.addAll(value);
-      streamController.add(listFilter);
+      // isCity = false;
+      _list.clear();
+      _listFilter.clear();
+      _list.addAll(value);
+      _listFilter.addAll(value);
+      streamController.add(_listFilter);
     }).catchError((e){
       print('e: ${e.toString()}');
-      ToastOverlay(e);
+
     });
   }
 
-  void setCity(String city) {
-    this.city = city;
-    streamController.sink.add([]);
+  void onFilter (String keyword){
+    _listFilter.clear();
+    _listFilter.addAll(_list.where((element) => element.name?.toLowerCase().contains(keyword.toLowerCase())==true).toList());
+    streamController.add(_listFilter);
   }
 }

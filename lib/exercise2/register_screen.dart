@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:homework2/common/const/keyboard.dart';
+import 'package:homework2/common/const/navigator.dart';
 import 'package:homework2/common/const/toast_overlay.dart';
+import 'package:homework2/exercise2/issue_page/page/issue_page.dart';
 import 'package:homework2/service/issue_service.dart';
 import 'package:homework2/service/user_service.dart';
 import 'package:http/http.dart' as http;
@@ -42,6 +44,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Login Page'),
+        leading: IconButton(onPressed: (){
+          Navigator.of(context).pop();
+        }, icon: Icon(Icons.arrow_back)),
       ),
       body: buildBody(),
     );
@@ -150,6 +155,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             email: emailController.text)
         .then((value) {
       ToastOverlay(context).show(message: 'Hello ${value.name}');
+      navigatorPush(context, IssuePage());
     }).catchError((e) {
       ToastOverlay(context).show(message: e.toString());
     });

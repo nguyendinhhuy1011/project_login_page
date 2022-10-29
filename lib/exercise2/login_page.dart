@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
@@ -7,6 +6,7 @@ import 'package:homework2/common/const/keyboard.dart';
 import 'package:homework2/common/const/progress_dialog.dart';
 import 'package:homework2/common/const/toast_overlay.dart';
 import 'package:homework2/common/widgets/hive_manager.dart';
+import 'package:homework2/exercise2/issue_page/page/issue_page.dart';
 import 'package:homework2/exercise2/profile_page.dart';
 import 'package:homework2/exercise2/register_screen.dart';
 import 'package:homework2/exercise2/report_page.dart';
@@ -194,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       apiService.token = user.token ?? '';
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => ProfilePage()), (route) => false);
+          MaterialPageRoute(builder: (_) => IssuePage()), (route) => false);
 
 
 

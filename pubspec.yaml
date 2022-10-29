@@ -36,7 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^0.13.5
   image_picker: ^0.8.6
-#  lottie: ^1.4.3
+  lottie: ^1.4.3
   shared_preferences: ^2.0.15
   flutter_secure_storage: ^6.0.0
   hive_flutter: ^1.1.0

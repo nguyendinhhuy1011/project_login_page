@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -12,8 +11,6 @@ import '../../models/area.dart';
 import '../my_area/city_page.dart';
 import '../my_area/district_dropdown.dart';
 import 'select_area_bloc.dart';
-
-
 
 class MyAreaPage extends StatefulWidget {
   const MyAreaPage({Key? key}) : super(key: key);
@@ -34,7 +31,6 @@ class _MyAreaPageState extends State<MyAreaPage> {
   // String? idCitySelected;
   // String? citySelected;
   // final List<Area> listCity = [];
-
 
   var isEnable = false;
 
@@ -58,7 +54,6 @@ class _MyAreaPageState extends State<MyAreaPage> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +70,7 @@ class _MyAreaPageState extends State<MyAreaPage> {
         Expanded(
           child: SingleChildScrollView(
             child: Column(
-              children:  [
+              children: [
                 SizedBox(
                   height: 20,
                 ),
@@ -94,28 +89,33 @@ class _MyAreaPageState extends State<MyAreaPage> {
                   onChanged: (_) => validate(),
                 ),
                 GestureDetector(
-                  onTap: (){
-                    navigatorPush(context, CityPage());
+                  onTap: () {
+                    navigatorPush(context, CityPage(
+                      onDone: onDone
+                    ));
                   },
                   child: MyTextField2(
+                    controller: cityController,
                     labelText: 'City',
                     hintText: 'Select city',
                     enable: false,
                     suffixIcon: Icon(Icons.arrow_drop_down),
                     keyboardType: TextInputType.text,
-                    controller: cityController,
+
                     onChanged: (_) => validate(),
                   ),
                 ),
                 GestureDetector(
-                  onTap: (){navigatorPush(context, DistrictPage());},
+                  onTap: () {
+                    navigatorPush(context, CityPage(onDone: onDone));
+                  },
                   child: MyTextField2(
+                    controller: districtController,
                     labelText: 'District',
                     hintText: 'Select District',
                     enable: false,
                     suffixIcon: Icon(Icons.arrow_drop_down),
                     keyboardType: TextInputType.text,
-                    obscureText: true,
                     onChanged: (_) => validate(),
                   ),
                 ),
@@ -123,7 +123,6 @@ class _MyAreaPageState extends State<MyAreaPage> {
                   labelText: 'Address',
                   hintText: 'Input address(street...)',
                   keyboardType: TextInputType.text,
-                  obscureText: true,
                   onChanged: (_) => validate(),
                 ),
                 SizedBox(
@@ -133,7 +132,7 @@ class _MyAreaPageState extends State<MyAreaPage> {
                   valueListenable: notifier,
                   builder: (context, value, _) {
                     return MyButton(
-                      onTap: (){
+                      onTap: () {
                         print('saved');
                       },
                       textButton: 'Save',
@@ -145,7 +144,6 @@ class _MyAreaPageState extends State<MyAreaPage> {
             ),
           ),
         ),
-
       ],
     );
   }
@@ -164,13 +162,12 @@ class _MyAreaPageState extends State<MyAreaPage> {
     //flutter_bloc
   }
 
-  void selectCity(){
 
-  }
+  void onDone(city, district) {
+  print('city: ${city.name}');
+  print('District: ${district.name} ');
 
-  void listen() {
-    bloc.stream.listen((event) {
-      print(bloc.city);
-    });
+  cityController.text = city.name;
+  districtController.text = district.name;
   }
 }
