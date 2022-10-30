@@ -1,65 +1,42 @@
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
-
-import 'package:homework2/common/widgets/flutter_secure_storage.dart';
 import 'package:homework2/common/const/keyboard.dart';
-import 'package:homework2/common/const/progress_dialog.dart';
+import 'package:homework2/common/const/navigator.dart';
 import 'package:homework2/common/const/toast_overlay.dart';
-import 'package:homework2/common/widgets/hive_manager.dart';
 import 'package:homework2/exercise2/issue_page/page/issue_page.dart';
-import 'package:homework2/exercise2/profile_page.dart';
-import 'package:homework2/exercise2/register_screen.dart';
-import 'package:homework2/exercise2/report_page.dart';
-import 'package:homework2/service/api_service.dart';
+import 'package:homework2/exercise2/project_page/login_page.dart';
+import 'package:homework2/exercise2/project_page/profile_page.dart';
 import 'package:homework2/service/issue_service.dart';
 import 'package:homework2/service/user_service.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+import '../../common/const/MyTextField2.dart';
+import '../../common/const/build_button.dart';
+import '../../models/User.dart';
+import '../../service/api_service.dart';
 
-import '../common/const/MyTextField2.dart';
-import '../common/const/build_button.dart';
-import '../common/widgets/shared_preference.dart';
-import '../models/User.dart';
-
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
 
   var isEnable = false;
 
   var notifier = ValueNotifier<bool>(false);
-  late ProgressDialog progress;
-
-
-  @override
-  void initState() {
-    // phoneController.text = '0909408099';
-
-    progress = ProgressDialog(context);
-
-    // sharePrefs.getString(phoneKey).then((value) {
-    //   phoneController.text = value ?? '';
-    // });
-
-    secureStorage.getString(phoneKey).then((value) {
-      phoneController.text = value ?? '';
-    });
-
-    super.initState();
-  }
-
 
   @override
   void dispose() {
     phoneController.dispose();
     passwordController.dispose();
+    nameController.dispose();
+    emailController.dispose();
     super.dispose();
   }
 
@@ -69,6 +46,9 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Login Page'),
+        leading: IconButton(onPressed: (){
+          Navigator.of(context).pop();
+        }, icon: Icon(Icons.arrow_back)),
       ),
       body: buildBody(),
     );
@@ -90,10 +70,24 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 20,
                   ),
                   MyTextField2(
+                    labelText: 'Name',
+                    autoFocus: true,
+                    keyboardType: TextInputType.text,
+                    controller: nameController,
+                    onChanged: (_) => validate(),
+                  ),
+                  MyTextField2(
                     labelText: 'Phone Number',
                     autoFocus: true,
                     keyboardType: TextInputType.phone,
                     controller: phoneController,
+                    onChanged: (_) => validate(),
+                  ),
+                  MyTextField2(
+                    labelText: 'Email',
+                    autoFocus: true,
+                    keyboardType: TextInputType.emailAddress,
+                    controller: emailController,
                     onChanged: (_) => validate(),
                   ),
                   MyTextField2(
@@ -106,28 +100,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: 20,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Expanded(
-                        child: MyButton(
-                          onTap: register,
-                          textButton: 'Register',
-                        ),
-                      ),
-                      Expanded(
-                        child: ValueListenableBuilder<bool>(
-                          valueListenable: notifier,
-                          builder: (context, value, _) {
-                            return MyButton(
-                              onTap: login,
-                              textButton: 'Log in',
-                              enable: value,
-                            );
-                          },
-                        ),
-                      ),
-                    ],
+                  ValueListenableBuilder<bool>(
+                    valueListenable: notifier,
+                    builder: (context, value, _) {
+                      return MyButton(
+                        onTap: register,
+                        textButton: 'Register',
+                        enable: value,
+                      );
+                    },
                   ),
                 ],
               ),
@@ -168,40 +149,16 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void register() {
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => RegisterScreen()), (route) => false);
-  }
-
-  Future login() async{
-    // apiLogin().then((value) {
-    //   ToastOverlay(context).show(message: 'Log in successfully');
-    // }).catchError((e) {
-    //   ToastOverlay(context).show(message: 'Log in failed: $e' );
-    // });
-
-    // progress.show();
-    await Future.delayed(Duration(seconds: 3));
     apiService
-        .login(phone: phoneController.text, password: passwordController.text)
-        .then((user) {
-          sharePrefs.setString(phoneKey, phoneController.text);
-          secureStorage.setString(phoneKey, phoneController.text);
-          
-          hive.setValue(userTokenKey, user.token);
-          // progress.hide();
-
-      ToastOverlay(context).show(message: 'Hello ${user.name}');
-
-      apiService.token = user.token ?? '';
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => IssuePage()), (route) => false);
-
-
-
+        .register(
+            name: nameController.text,
+            phone: phoneController.text,
+            password: passwordController.text,
+            email: emailController.text)
+        .then((value) {
+      ToastOverlay(context).show(message: 'Hello ${value.name}');
+      navigatorPushAndRemoveUntil(context, LoginScreen());
     }).catchError((e) {
-      // progress.show();
-      // // Future.delayed(Duration(seconds: 3));
-      // progress.hide();
       ToastOverlay(context).show(message: e.toString());
     });
   }

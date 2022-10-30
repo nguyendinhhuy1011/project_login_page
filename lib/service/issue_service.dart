@@ -15,4 +15,23 @@ extension IssueService on APIService {
     final issues = List<Issue>.from(result.map((e) => Issue.fromJson(e)));
     return issues;
   }
+
+  Future<Issue> reportIssue({
+    required String title,
+    required String content,
+    required String photos,
+}) async{
+    final body = {
+      "Title": title,
+      "Content": content,
+      "Photo": photos,
+    };
+    final result = await request(
+      path: '/api/issues?limit=20&offset=0',
+      method: Method.post,
+      body: body,
+    );
+    final issue = Issue.fromJson(result);
+    return issue;
+  }
 }

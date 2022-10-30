@@ -11,31 +11,40 @@ import '../../../models/issue.dart';
 class IssueBloc {
 
   final _countStreamController = StreamController<int>();
+
   Stream<int> get stream => _countStreamController.stream;
+
   StreamSink<int> get sink => _countStreamController.sink;
 
-  final _issueStreamController = StreamController<List<Issue>>();
-  Stream<List<Issue>> get streamIssue => _issueStreamController.stream;
-  StreamSink<List<Issue>> get sinkIssue => _issueStreamController.sink;
+  final _listIssueStreamController = StreamController<List<Issue>>();
+
+  Stream<List<Issue>> get streamIssue => _listIssueStreamController.stream;
+
+  StreamSink<List<Issue>> get sinkIssue => _listIssueStreamController.sink;
+
+  final _issueStreamController = StreamController<Issue>();
 
   final BuildContext context;
   final issues = <Issue>[];
-  int count =0;
+  Issue? issue;
+  int count = 0;
 
-  IssueBloc(this.context){
+  IssueBloc(this.context) {
     getIssues();
   }
 
-  void increment(){
-    count = count +1;
-    sink.add(count);
-  }
-  void decrement(){
-    count =count -1;
-    // _countStreamController.sink.add(count);
-    _countStreamController.add(count);
-  }
-  Future <void> getIssues({bool isClear =false}) async{
+  // void increment() {
+  //   count = count + 1;
+  //   sink.add(count);
+  // }
+  //
+  // void decrement() {
+  //   count = count - 1;
+  //   // _countStreamController.sink.add(count);
+  //   _countStreamController.add(count);
+  // }
+
+  Future <void> getIssues({bool isClear = false}) async {
     // final context = navigatorKey.currentContext;
     // if (context == null){
     //   return;
@@ -44,24 +53,37 @@ class IssueBloc {
 
     progressDialog.show();
 
-  await Future.delayed(Duration(seconds: 3));
-  await apiService.getIssues(offset: isClear?0 : issues.length).then((value) {
-
-      if (isClear){
+    await apiService.getIssues(offset: isClear ? 0 : issues.length).then((
+        value) {
+      if (isClear) {
         issues.clear();
       }
-      if (value.isNotEmpty){
+      if (value.isNotEmpty) {
         issues.addAll(value);
-        _issueStreamController.add(issues);
-      } else if (isClear){
-        _issueStreamController.add(issues);
+        _listIssueStreamController.add(issues);
+      } else if (isClear) {
+        _listIssueStreamController.add(issues);
       }
 
       progressDialog.hide();
-
-    }).catchError((e){
-    progressDialog.hide();
-      _issueStreamController.addError(e.toString());
+    }).catchError((e) {
+      progressDialog.hide();
+      _listIssueStreamController.addError(e.toString());
     });
   }
+
+  Future<void> reportIssue({
+    required Issue issue
+  }) async {
+    apiService.reportIssue(
+      title: issue.title?? '',
+      content: issue.content?? '',
+      photos: issue.photos!.join('|')?? '',
+    ).then((value) {
+      _issueStreamController.add(value);
+    }).catchError((e){
+      _listIssueStreamController.addError(e.toString());
+    });
+  }
+
 }

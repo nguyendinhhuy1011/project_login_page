@@ -38,7 +38,7 @@ class _MyAreaPageState extends State<MyAreaPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     bloc = SelectAreaBloc();
     bloc.getCities();
     super.initState();

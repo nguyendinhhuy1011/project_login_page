@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:homework2/common/const/avatar.dart';
+import 'package:homework2/common/const/navigator.dart';
+import 'package:homework2/common/const/progress_dialog.dart';
+import 'package:homework2/common/const/toast_overlay.dart';
 import 'package:homework2/exercise2/issue_page/page/issue_page.dart';
 import 'package:homework2/exercise2/issue_page/page/newFeed.dart';
-import 'package:homework2/exercise2/report_page.dart';
+import 'package:homework2/exercise2/project_page/login_page.dart';
+import 'package:homework2/exercise2/project_page/profile_page.dart';
+import 'package:homework2/exercise2/project_page/report_page.dart';
 
 import 'package:homework2/models/personal_setting.dart';
+import 'package:homework2/service/api_service.dart';
+import 'package:homework2/service/user_service.dart';
 
-import 'package:homework2/exercise2/profile_page.dart';
+import 'change_password_page.dart';
+
 
 class LeftMenuBar extends StatefulWidget {
   const LeftMenuBar({Key? key}) : super(key: key);
@@ -18,16 +26,22 @@ class LeftMenuBar extends StatefulWidget {
 
 
 class _LeftMenuBarState extends State<LeftMenuBar> {
+  late ProgressDialog progressDialog;
+  var url = 'https://pic.onlinewebfonts.com/svg/img_264570.png';
+  String? userName;
+  String? userPhone;
 
   final listSetting = [];
 
+
   @override
   void initState() {
+    uploadUser();
     listSetting.addAll([
       PersonalSetting(select: 'Issue', icon: Icon(Icons.menu,),),
       PersonalSetting(select: 'Report', icon: Icon(Icons.report_problem)),
       PersonalSetting(select: 'Change Password', icon: Icon(Icons.wifi_protected_setup)),
-      PersonalSetting(select: 'Policies', icon: Icon(Icons.policy)),
+      PersonalSetting(select: 'Profile', icon: Icon(Icons.account_circle)),
       PersonalSetting(select: 'Contact', icon: Icon(Icons.contact_support)),
       PersonalSetting(select: 'Log out', icon: Icon(Icons.logout)),
     ]);
@@ -54,15 +68,19 @@ class _LeftMenuBarState extends State<LeftMenuBar> {
                 children: [
                   Padding(
                       padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                      child: Avatar(
-                        widthAva: 56,
-                        heightAva: 56,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Container(
+                          width: 56,
+                          height: 56,
+                          child: Image.network(url, fit: BoxFit.cover,),
+                        ),
                       )),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Huy Nguyen',style: TextStyle(color: Colors.white),),
-                      Text('0909408099', style: TextStyle(color: Colors.white),),
+                      Text(userName?? ''),
+                      Text(userPhone?? ''),
                     ],
                   )
                 ],
@@ -74,6 +92,19 @@ class _LeftMenuBarState extends State<LeftMenuBar> {
       ),
     );
   }
+
+  void uploadUser(){
+    apiService.getProfile().then((user) {
+      url = user.avatar?? 'https://pic.onlinewebfonts.com/svg/img_264570.png';
+      userName = user.name?? '';
+      userPhone = user.phoneNumber?? '';
+      setState(() {
+      });
+    }).catchError((e){
+        ToastOverlay(context).show(message: 'Errors occur: ${e.toString()}');
+    });
+  }
+
 
   Widget buildSettings() {
     return Container(
@@ -101,6 +132,14 @@ class _LeftMenuBarState extends State<LeftMenuBar> {
             MaterialPageRoute(builder: (_)=>IssuePage(),
             ),
           );
+        } else if (personalSetting.select == 'Profile'){
+          navigatorPush(context, ProfilePage());
+        }
+        else if (personalSetting.select == 'Change Password'){
+          navigatorPush(context, ChangePasswordPage());
+        }
+        else if (personalSetting.select == 'Log out'){
+          navigatorPushAndRemoveUntil(context, LoginScreen());
         }
       },
       child: Container(

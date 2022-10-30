@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:homework2/exercise2/issue_page/bloc/issue_bloc.dart';
-import 'package:homework2/exercise2/left_menu_bar.dart';
+import 'package:homework2/exercise2/project_page/left_menu_bar.dart';
 import 'package:homework2/models/issue.dart';
 
 
@@ -85,7 +85,7 @@ Widget buildNewFeed(Issue issues) {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(issues.accountPublic?.name?? ''),
+                  Text(issues.accountPublic?.name?? 'huy'),
                   Text(issues.createdAt?? ''),
                 ],
               ),
@@ -99,20 +99,20 @@ Widget buildNewFeed(Issue issues) {
         SizedBox(height: 8,),
         Text(issues.content?? ''),
         // Image.network('https://giupban.com.vn/wp-content/uploads/2019/09/hinh-an-tinh-yeu-buon-tan-vo.jpg'),
-        Container(
-          height: 200,
-          child: GridView.builder(
-              itemCount: issues.photos!.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: issues.photos!.length==1?1:
-                issues.photos!.length==2?2:3,
-                crossAxisSpacing: 4,
-                mainAxisSpacing: 4,
-              ),
-              itemBuilder: (BuildContext context, int index){
-                return Image.network(issues.photos![index]);
+        GridView.builder(
+            itemCount: issues.photos!.length,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: issues.photos!.length==1?1:
+              issues.photos!.length==2?2:3,
+              crossAxisSpacing: 4,
+              mainAxisSpacing: 4,
+            ),
+            itemBuilder: (BuildContext context, int index){
+              return Image.network(issues.photos![index]);
+
               }
-          ),
         ),
       ],
     ),
