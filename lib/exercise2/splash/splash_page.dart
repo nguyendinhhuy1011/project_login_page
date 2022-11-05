@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:homework2/common/widgets/flutter_secure_storage.dart';
 import 'package:homework2/common/const/navigator.dart';
-import 'package:homework2/exercise2/issue_page/page/issue_page.dart';
+import 'package:homework2/exercise2/project_page/issue_page.dart';
 
 
 import '../../common/widgets/hive_manager.dart';
@@ -38,7 +38,7 @@ class _SplashPageState extends State<SplashPage> {
 
     final token = await hive.getValue(userTokenKey);
     if (token != null){
-      navigatorPushAndRemoveUntil(context, IssuePage());
+      navigatorPushAndRemoveUntil(context, LoginScreen());
     }else {
       navigatorPushAndRemoveUntil(context, LoginScreen());
     }

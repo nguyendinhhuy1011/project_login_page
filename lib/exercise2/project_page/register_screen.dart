@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:homework2/common/const/keyboard.dart';
 import 'package:homework2/common/const/navigator.dart';
 import 'package:homework2/common/const/toast_overlay.dart';
-import 'package:homework2/exercise2/issue_page/page/issue_page.dart';
+import 'package:homework2/exercise2/project_page/issue_page.dart';
 import 'package:homework2/exercise2/project_page/login_page.dart';
 import 'package:homework2/exercise2/project_page/profile_page.dart';
 import 'package:homework2/service/issue_service.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class ProgressDialog {
   bool _isShow = false;
@@ -25,9 +26,9 @@ class ProgressDialog {
               alignment: Alignment.center,
               child: Material(
                  color: Colors.transparent,
-                  child: CircularProgressIndicator(
-                    backgroundColor: Colors.red,
-                    color: Colors.indigo,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: Lottie.asset('assets/data/loading.json')
                   )),
             );
           });

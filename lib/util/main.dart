@@ -5,7 +5,7 @@ import 'package:homework2/exercise2/issue_page/page/newFeed.dart';
 import 'package:homework2/exercise2/project_page/login_page.dart';
 import 'package:homework2/exercise2/project_page/register_screen.dart';
 import 'package:homework2/exercise2/splash/splash_page.dart';
-import '../exercise2/issue_page/page/issue_page.dart';
+import '../exercise2/project_page/issue_page.dart';
 import '../exercise2/my_Area/area_page.dart';
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
-      home: const LoginScreen(),
+      home: const IssuePage(),
     );
   }
 }

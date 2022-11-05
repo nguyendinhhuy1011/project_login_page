@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:homework2/common/const/MyTextField2.dart';
 import 'package:homework2/common/const/toast_overlay.dart';
@@ -11,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../common/const/build_button.dart';
 import '../../common/const/const.dart';
 import '../../models/issue.dart';
+
 
 class ReportPage extends StatefulWidget {
   const ReportPage({Key? key}) : super(key: key);
@@ -91,7 +91,15 @@ class _ReportPageState extends State<ReportPage> {
             textColor: Colors.black,
             backgroundColor: Colors.greenAccent,
             onTap: () {
-              reportIssue();
+              final issue = Issue(
+                title: _titleController.text?? '',
+                content: _contentController.text?? '',
+                photos : photos,
+              );
+              bloc.reportIssue(issue: issue);
+              print('issue: ${issue.photos.toString()}');
+              // upload(url);
+
             },
           )
         ],
@@ -155,6 +163,7 @@ class _ReportPageState extends State<ReportPage> {
         photos.add(url);
       });
     }).catchError((e) {
+      getLostData();
       ToastOverlay(context).show(message: e.toString());
     });
   }
@@ -192,8 +201,9 @@ class _ReportPageState extends State<ReportPage> {
     return GestureDetector(
       onTap: () {
         selectImage(source: ImageSource.gallery);
+        // upload(url);
       },
-      child: Image.asset('assets/images/uploadImage1.jpeg',fit: BoxFit.cover,),
+      child: Image.asset('assets/images/uploadImage1.jpeg', fit: BoxFit.cover,),
     );
   }
 
@@ -220,26 +230,29 @@ class _ReportPageState extends State<ReportPage> {
               });
             },
             icon: const Icon(
-              Icons.remove_circle_outline_sharp,
-              color: Colors.red,
+              Icons.remove_circle,
+              color: Colors.brown,
             ),
           ),
         ),
       ],
     );
   }
-  void reportIssue(){
-    apiService.reportIssue(
-      title: _titleController.text?? '',
-      content: _contentController.text?? '',
-      photos: photos.join('|') ?? '',
-    ).then((issue) {
-      bloc.reportIssue(issue: issue);
-      ToastOverlay(context).show(
-          message: 'Added the article ${issue.title} successfully',
-          type: ToastType.success);
-    }).catchError((e){
-      ToastOverlay(context).show(message: 'Errors occur ${e.toString()}');
-    });
-  }
+
+  // void reportIssue(Issue issue) {
+  //   bloc.reportIssue(issue: issue);
+  //   apiService.reportIssue(
+  //     title: _titleController.text?? '',
+  //     content: _contentController.text?? '',
+  //     photos: photos.join('|') ?? '',
+  //   ).then((issue) {
+  //     bloc.reportIssue(issue: issue);
+  //     print('issue ${issue.toString()}');
+  //     ToastOverlay(context).show(
+  //         message: 'Added the article ${issue.title} successfully',
+  //         type: ToastType.success);
+  //   }).catchError((e){
+  //     ToastOverlay(context).show(message: 'Errors occur ${e.toString()}');
+  //   });
+  // }
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:homework2/common/const/progress_dialog.dart';
+import 'package:homework2/common/const/toast_overlay.dart';
 import 'package:homework2/service/api_service.dart';
 import 'package:homework2/service/issue_service.dart';
 import 'package:homework2/util/main.dart';
@@ -9,7 +10,6 @@ import 'package:homework2/util/main.dart';
 import '../../../models/issue.dart';
 
 class IssueBloc {
-
   final _countStreamController = StreamController<int>();
 
   Stream<int> get stream => _countStreamController.stream;
@@ -44,7 +44,7 @@ class IssueBloc {
   //   _countStreamController.add(count);
   // }
 
-  Future <void> getIssues({bool isClear = false}) async {
+  Future<void> getIssues({bool isClear = false}) async {
     // final context = navigatorKey.currentContext;
     // if (context == null){
     //   return;
@@ -53,8 +53,10 @@ class IssueBloc {
 
     progressDialog.show();
 
-    await apiService.getIssues(offset: isClear ? 0 : issues.length).then((
-        value) {
+    await apiService
+        .getIssues(offset: isClear ? 0 : issues.length)
+        .then((value) {
+
       if (isClear) {
         issues.clear();
       }
@@ -72,18 +74,22 @@ class IssueBloc {
     });
   }
 
-  Future<void> reportIssue({
-    required Issue issue
-  }) async {
-    apiService.reportIssue(
-      title: issue.title?? '',
-      content: issue.content?? '',
-      photos: issue.photos!.join('|')?? '',
-    ).then((value) {
+  Future<void> reportIssue({required Issue issue}) async {
+    apiService
+        .reportIssue(
+      title: issue.title ?? '',
+      content: issue.content ?? '',
+      photos: issue.photos?.join('|') ?? '',
+    )
+        .then((value) {
       _issueStreamController.add(value);
-    }).catchError((e){
+      print('print ${issue.photos.toString()}');
+      ToastOverlay(context).show(
+          message: 'Added the article ${issue.title} successfully',
+          type: ToastType.success);
+    }).catchError((e) {
       _listIssueStreamController.addError(e.toString());
+      ToastOverlay(context).show(message: 'Errors occur ${e.toString()}');
     });
   }
-
 }
