@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
-      home: const IssuePage(),
+      home: const SplashPage(),
     );
   }
 }

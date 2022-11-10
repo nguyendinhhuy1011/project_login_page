@@ -139,7 +139,7 @@ class _IssuePageState extends State<IssuePage> {
                 ),
                 itemBuilder: (BuildContext context, int index) {
                   return CachedNetworkImage(
-                    imageUrl: 'https://donoithatdanang.com/wp-content/uploads/2021/11/mang-hinh-khoa-cute-01.jpg',
+                    imageUrl: issues.photos![index] ,
                     errorWidget: (_,__, ___) => Icon(Icons.error),
                     // Image.network(issues.photos![index]);
                   );

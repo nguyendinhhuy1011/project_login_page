@@ -10,6 +10,7 @@ import '../../common/const/MyTextField2.dart';
 import '../../common/const/build_button.dart';
 import '../../common/const/const.dart';
 import '../../common/const/toast_overlay.dart';
+import '../../module/fcm/fcm_manager.dart';
 import '../../service/api_service.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -31,6 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
+    fcm.requestPermission();
     getProfile();
     super.initState();
   }

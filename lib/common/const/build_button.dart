@@ -51,7 +51,7 @@ class _MyButtonState extends State<MyButton> {
         height: widget.heightBtn,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: (lock || !widget.enable) ? Colors.teal :widget.backgroundColor,
+          color: (lock || !widget.enable) ? Colors.purple :widget.backgroundColor,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Text(

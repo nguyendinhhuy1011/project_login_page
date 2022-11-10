@@ -27,7 +27,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
 
-  var isEnable = false;
 
   var notifier = ValueNotifier<bool>(false);
 
