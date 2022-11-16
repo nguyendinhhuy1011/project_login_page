@@ -38,6 +38,13 @@ class _ReportPageState extends State<ReportPage> {
   List<String> photos = [];
 
   @override
+  void dispose() {
+    _titleController.dispose();
+    _contentController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.grey,

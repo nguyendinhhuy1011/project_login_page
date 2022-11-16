@@ -11,12 +11,12 @@ class NewFeedPage extends StatefulWidget {
 
 class _NewFeedPageState extends State<NewFeedPage> {
   final listNewfeed = [];
-  late IssueBloc bloc;
+  // late IssueBloc bloc;
 
 
   @override
   void initState() {
-    bloc = IssueBloc(context);
+    // bloc = IssueBloc(context);
     listNewfeed.addAll([
         NewFeedModel(avaUser: 'assets/images/avar.jpeg',
         nameUser: 'Huy Nguyen',

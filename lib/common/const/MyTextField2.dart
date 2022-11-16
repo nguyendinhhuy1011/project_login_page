@@ -23,6 +23,7 @@ class MyTextField2 extends StatelessWidget {
   final Function(String)? onChanged;
   final Function(String)? onSubmitted;
   final double? heightTextField;
+  final String? errorText;
 
   const MyTextField2({
     Key? key,
@@ -45,7 +46,8 @@ class MyTextField2 extends StatelessWidget {
     this.textInputAction,
     this.onChanged,
     this.onSubmitted,
-    this.heightTextField=56,
+    this.heightTextField=12,
+    this.errorText,
   }) : super(key: key);
 
   @override
@@ -67,7 +69,7 @@ class MyTextField2 extends StatelessWidget {
             ),
           ),
         ),
-        Padding(padding: EdgeInsets.symmetric(horizontal: 16,vertical: 8),
+        Padding(padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
           child: TextField(
             controller: controller,
             autofocus: autoFocus,
@@ -88,6 +90,7 @@ class MyTextField2 extends StatelessWidget {
               letterSpacing: letterSpacing,
             ),
             decoration: InputDecoration(
+              errorText: errorText,
               hintText: hintText,
               hintStyle: TextStyle(
                 fontSize: 14,

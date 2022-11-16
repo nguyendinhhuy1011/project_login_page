@@ -11,14 +11,14 @@ import '../../service/api_service.dart';
 
 
 
-class ChangePasswordPage extends StatefulWidget {
-  const ChangePasswordPage({Key? key}) : super(key: key);
+class SwitchPasswordPage extends StatefulWidget {
+  const SwitchPasswordPage({Key? key}) : super(key: key);
 
   @override
-  State<ChangePasswordPage> createState() => _ChangePasswordPageState();
+  State<SwitchPasswordPage> createState() => _SwitchPasswordPageState();
 }
 
-class _ChangePasswordPageState extends State<ChangePasswordPage> {
+class _SwitchPasswordPageState extends State<SwitchPasswordPage> {
   final _oldPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
 

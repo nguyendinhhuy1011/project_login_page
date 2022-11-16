@@ -27,10 +27,11 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.purpleAccent,
-      body: Container(
-        alignment: Alignment.center,
-        child: Image.asset('assets/images/ganhanhdencung.jpeg'),
+      backgroundColor: Colors.transparent,
+      body: Center(
+        child: Container(
+          child: Image.asset('assets/images/ganhanhdencung.jpeg'),
+        ),
       ),
     );
   }

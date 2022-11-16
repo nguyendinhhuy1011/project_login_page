@@ -136,7 +136,7 @@ class _LeftMenuBarState extends State<LeftMenuBar> {
           navigatorPush(context, ProfilePage());
         }
         else if (personalSetting.select == 'Change Password'){
-          navigatorPush(context, ChangePasswordPage());
+          navigatorPush(context, SwitchPasswordPage());
         }
         else if (personalSetting.select == 'Log out'){
           navigatorPushAndRemoveUntil(context, LoginScreen());

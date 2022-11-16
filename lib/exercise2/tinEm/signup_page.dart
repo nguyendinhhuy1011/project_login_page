@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:homework2/common/const/MyTextField2.dart';
 import 'package:homework2/common/const/build_button.dart';
+import 'package:homework2/common/const/navigator.dart';
+import 'package:homework2/exercise2/tinEm/bottom_navigation_page.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -15,6 +17,14 @@ class _SignUpPageState extends State<SignUpPage> {
   final _phoneController = TextEditingController();
   final _mailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  final _phoneError = 'Phone number must has 10 digits';
+  final _passError = 'Password must be more than 4 digits and less than 8 digits';
+  final _mailError = 'Email must contain @gmail';
+
+  var _notifierPhoneInvalid = ValueNotifier<bool>(false);
+  var _notifierPasswordInvalid = ValueNotifier<bool>(false);
+  var _notifierEmailInvalid = ValueNotifier<bool>(false);
 
   var notifier = ValueNotifier<bool>(false);
 
@@ -35,6 +45,7 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
+
   // decoration: BoxDecoration(
   //   image: DecorationImage(
   //     image: NetworkImage('https://i.pinimg.com/236x/9b/e1/71/9be17159ddfbb61809278283516e8292.jpg'),
@@ -46,7 +57,8 @@ class _SignUpPageState extends State<SignUpPage> {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage('https://congngheviet.com/wp-content/uploads/2017/10/iPhone-wallpaper-Violet-Gradient-alexmuench-768x1366.png'),
+            image: NetworkImage(
+                'https://congngheviet.com/wp-content/uploads/2017/10/iPhone-wallpaper-Violet-Gradient-alexmuench-768x1366.png'),
             fit: BoxFit.cover,
           )
       ),
@@ -58,36 +70,78 @@ class _SignUpPageState extends State<SignUpPage> {
                 children: [
                   buildLogo(),
                   MyTextField2(
-                    prefixIcon: Icon(Icons.phone) ,
+                    controller: _nameController,
+                    textInputAction: TextInputAction.next,
+                    prefixIcon: Icon(Icons.person),
                     hintText: 'Full Name',
                     autoFocus: true,
                     keyboardType: TextInputType.text,
+                    onChanged: (_)=>validate(),
                   ),
-                  MyTextField2(
-                    prefixIcon: Icon(Icons.security),
-                    hintText: 'Phone Number',
-                    autoFocus: true,
-                    keyboardType: TextInputType.text,
-                    obscureText: true,
+                  ValueListenableBuilder(
+                    valueListenable: _notifierPhoneInvalid,
+                    builder: (context, value, _) {
+                      return MyTextField2(
+                        controller: _phoneController,
+                        prefixIcon: const Icon(Icons.phone_android),
+                        hintText: 'Phone Number',
+                        autoFocus: true,
+                        keyboardType: TextInputType.phone,
+                        errorText:
+                        _notifierPhoneInvalid.value ? _phoneError : null,
+                        onChanged: (_) {
+                          validate();
+                          validatePhone();
+                        },
+                      );
+                    },
                   ),
-                  MyTextField2(
-                    prefixIcon: Icon(Icons.email),
-                    hintText: 'Email',
-                    autoFocus: true,
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  MyTextField2(
-                    prefixIcon: Icon(Icons.security),
-                    hintText: 'Password',
-                    keyboardType: TextInputType.text,
-                    obscureText: true,
+                  ValueListenableBuilder(
+                      valueListenable: _notifierEmailInvalid,
+                      builder: (context, value, _) {
+                        return MyTextField2(
+                          controller: _mailController,
+                          textInputAction: TextInputAction.next,
+                          prefixIcon: const Icon(Icons.mail),
+                          hintText: 'Email',
+                          keyboardType: TextInputType.text,
+                          errorText: _notifierEmailInvalid.value==true ? _mailError : null,
+                          onChanged: (_) {
+                            validate();
+                            validEmail();
+                          },
+                        );
+                      }),
+                  ValueListenableBuilder(
+                      valueListenable: _notifierPasswordInvalid,
+                      builder: (context, value, _) {
+                        return MyTextField2(
+                          controller: _passwordController,
+                          textInputAction: TextInputAction.next,
+                          prefixIcon: const Icon(Icons.security),
+                          hintText: 'Password',
+                          keyboardType: TextInputType.text,
+                          obscureText: true,
+                          errorText: _notifierPasswordInvalid.value==true ? _passError : null,
+                          onChanged: (_) {
+                            validate();
+                            validatePassword();
+                          },
+                        );
+                      }),
 
-                  ),
-
-                  MyButton(
-                    widthBtn: double.infinity,
-                    textButton: 'Sign Up',
-                    onTap: () {},
+                  ValueListenableBuilder<bool>(
+                    valueListenable: notifier,
+                    builder: (context, value, _) {
+                      return MyButton(
+                        widthBtn: double.infinity,
+                        textButton: 'Sign Up',
+                        enable: value,
+                        onTap: () {
+                          navigatorPushAndRemoveUntil(context, BottomBarPage());
+                        },
+                      );
+                    },
                   ),
                 ],
               ),
@@ -112,6 +166,7 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
+
   Widget buildHotline() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -122,5 +177,47 @@ class _SignUpPageState extends State<SignUpPage> {
         ]),
       ),
     );
+  }
+
+  void validate() {
+    final name = _nameController.text;
+    final phone = _phoneController.text;
+    final email = _mailController.text;
+    final password = _passwordController.text;
+
+    if (2 <= name.length && name.length <= 10 && phone.length == 10 &&
+        email.length > 10 && email.contains('@gmail.com') &&
+        password.length >= 4 && password.length <= 8){
+      notifier.value = true;
+    } else {
+      notifier.value = false;
+    }
+  }
+
+  void validatePhone() {
+    final phone = _phoneController.text;
+    if (phone.length == 10) {
+      _notifierPhoneInvalid.value = false;
+    } else {
+      _notifierPhoneInvalid.value = true;
+    }
+  }
+
+  void validatePassword() {
+    final password = _passwordController.text;
+    if (password.length >= 4 && password.length <= 8) {
+      _notifierPasswordInvalid.value = false;
+    } else {
+      _notifierPasswordInvalid.value = true;
+    }
+  }
+
+  void validEmail(){
+    final email = _mailController.text;
+    if (email.length > 10 && email.contains('@gmail.com')){
+      _notifierEmailInvalid.value = false;
+    } else {
+      _notifierEmailInvalid.value = true;
+    }
   }
 }

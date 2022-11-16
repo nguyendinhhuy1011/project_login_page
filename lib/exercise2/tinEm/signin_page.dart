@@ -3,6 +3,8 @@ import 'package:homework2/common/const/MyTextField2.dart';
 import 'package:homework2/common/const/build_button.dart';
 import 'package:homework2/common/const/keyboard.dart';
 import 'package:homework2/common/const/navigator.dart';
+import 'package:homework2/exercise2/tinEm/bottom_navigation_page.dart';
+import 'package:homework2/exercise2/tinEm/update_account.dart';
 import 'package:homework2/exercise2/tinEm/signup_page.dart';
 
 class SignInPage extends StatefulWidget {
@@ -15,7 +17,11 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _phoneError = 'Phone number must has 10 digits';
+  final _passError = 'Password must be more than 4 digits and less than 8 digits';
 
+  var _notifierPhoneInvalid = ValueNotifier<bool>(false);
+  var _notifierPasswordInvalid = ValueNotifier<bool>(false);
 
   var notifier = ValueNotifier<bool>(false);
 
@@ -29,9 +35,9 @@ class _SignInPageState extends State<SignInPage> {
   void dispose() {
     _phoneController.dispose();
     _passwordController.dispose();
+
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +47,7 @@ class _SignInPageState extends State<SignInPage> {
       ),
     );
   }
+
   // decoration: BoxDecoration(
   //   image: DecorationImage(
   //     image: NetworkImage('https://i.pinimg.com/236x/9b/e1/71/9be17159ddfbb61809278283516e8292.jpg'),
@@ -51,64 +58,85 @@ class _SignInPageState extends State<SignInPage> {
   Widget buildBody() {
     return Container(
       decoration: BoxDecoration(
-        image: DecorationImage(
-          image: NetworkImage('https://congngheviet.com/wp-content/uploads/2017/10/iPhone-wallpaper-Violet-Gradient-alexmuench-768x1366.png'),
-          fit: BoxFit.cover,
-        )
-      ),
+          image: DecorationImage(
+        image: NetworkImage(
+            'https://congngheviet.com/wp-content/uploads/2017/10/iPhone-wallpaper-Violet-Gradient-alexmuench-768x1366.png'),
+        fit: BoxFit.cover,
+      )),
       child: GestureDetector(
         onTap: () => hideKeyboardAndUnFocus(context),
         child: SafeArea(
           child: Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        buildLogo(),
-                         MyTextField2(
-                          controller: _phoneController,
-                          prefixIcon: const Icon(Icons.phone) ,
-                          hintText: 'Phone Number',
-                          autoFocus: true,
-                          keyboardType: TextInputType.phone,
-                           onChanged: (_) => validate(),
-                        ),
-                        MyTextField2(
-                          controller: _passwordController,
-                          prefixIcon: const Icon(Icons.security),
-                          hintText: 'Password',
-                          keyboardType: TextInputType.text,
-                          obscureText: true,
-                          onChanged:  (_)=> validate(),
-                        ),
-
-                        Row(
-                          children: [
-                            Expanded(
-                              child: MyButton(
-                                textButton: 'Sign Up',
-                                onTap: signUp,
-                                enable: true,
-                              ),
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      buildLogo(),
+                      ValueListenableBuilder(
+                        valueListenable: _notifierPhoneInvalid,
+                        builder: (context, value, _) {
+                          return MyTextField2(
+                            textInputAction: TextInputAction.next,
+                            controller: _phoneController,
+                            prefixIcon: const Icon(Icons.phone_android),
+                            hintText: 'Phone Number',
+                            autoFocus: true,
+                            keyboardType: TextInputType.phone,
+                            errorText:
+                                _notifierPhoneInvalid.value ? _phoneError : null,
+                            onChanged: (_) {
+                              validate();
+                              validatePhone();
+                            },
+                          );
+                        },
+                      ),
+                      ValueListenableBuilder(
+                          valueListenable: _notifierPasswordInvalid,
+                          builder: (context, value, _) {
+                            return MyTextField2(
+                              textInputAction: TextInputAction.next,
+                              controller: _passwordController,
+                              prefixIcon: const Icon(Icons.security),
+                              hintText: 'Password',
+                              keyboardType: TextInputType.text,
+                              obscureText: true,
+                              errorText: _notifierPasswordInvalid.value==true ? _passError : null,
+                              onChanged: (_) {
+                                validate();
+                                validatePassword();
+                              },
+                            );
+                          }),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: MyButton(
+                              textButton: 'Sign Up',
+                              onTap: signUp,
+                              enable: true,
                             ),
-                            Expanded(
-                              child: ValueListenableBuilder<bool>(valueListenable: notifier, builder: (context, value, _) {
-                                return MyButton(
-                                  textButton: 'Sign In',
-                                  onTap: signIn,
-                                  enable: value,
-                                );
-                              },)
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                          Expanded(
+                              child: ValueListenableBuilder<bool>(
+                            valueListenable: notifier,
+                            builder: (context, value, _) {
+                              return MyButton(
+                                textButton: 'Sign In',
+                                onTap: signIn,
+                                enable: value,
+                              );
+                            },
+                          )),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                Align(alignment: Alignment.bottomCenter, child: buildHotline()),
-              ],
+              ),
+              Align(alignment: Alignment.bottomCenter, child: buildHotline()),
+            ],
           ),
         ),
       ),
@@ -128,6 +156,7 @@ class _SignInPageState extends State<SignInPage> {
       ),
     );
   }
+
   Widget buildHotline() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -140,22 +169,40 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
-  void signUp(){
+  void signUp() {
     navigatorPush(context, SignUpPage());
   }
-  void signIn(){
 
+  void signIn() {
+    navigatorPushAndRemoveUntil(context, BottomBarPage());
   }
-  void validate(){
+
+  void validate() {
     final phone = _phoneController.text;
     final password = _passwordController.text;
 
-    if (phone.length ==10 && 4<=password.length && password.length<=6 ){
+    if (phone.length == 10 && 4 <= password.length && password.length <= 8) {
       notifier.value = true;
     } else {
       notifier.value = false;
     }
-
   }
 
+  void validatePhone() {
+    final phone = _phoneController.text;
+    if (phone.length == 10) {
+      _notifierPhoneInvalid.value = false;
+    } else {
+      _notifierPhoneInvalid.value = true;
+    }
+  }
+
+  void validatePassword() {
+    final password = _passwordController.text;
+    if (password.length >= 4 && password.length <= 8) {
+      _notifierPasswordInvalid.value = false;
+    } else {
+      _notifierPasswordInvalid.value = true;
+    }
+  }
 }
