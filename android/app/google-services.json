@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "847354543051",
+    "project_id": "eugene-project-demo",
+    "storage_bucket": "eugene-project-demo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:847354543051:android:f4663100fa011f8ccb144e",
+        "android_client_info": {
+          "package_name": "com.example.homework2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "847354543051-gqih5kk7q96gdehdsa8uosk2nqfpreai.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB56qar2GrQyVgEOlRwa30zwk2htyofYuQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "847354543051-gqih5kk7q96gdehdsa8uosk2nqfpreai.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
