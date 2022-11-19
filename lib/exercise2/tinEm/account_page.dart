@@ -5,7 +5,7 @@ import 'package:homework2/common/const/navigator.dart';
 import 'package:homework2/exercise2/project_page/profile_page.dart';
 import 'package:homework2/exercise2/tinEm/rating_page.dart';
 import 'package:homework2/exercise2/tinEm/review_page.dart';
-import 'package:homework2/exercise2/tinEm/tinEm_page.dart';
+import 'package:homework2/exercise2/tinEm/gamerCard/tinEm_page.dart';
 import 'package:homework2/exercise2/tinEm/update_account.dart';
 import 'package:homework2/exercise2/tinEm/signin_page.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -20,8 +20,6 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-
-
   @override
   void initState() {
     super.initState();
@@ -42,7 +40,7 @@ class _AccountPageState extends State<AccountPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: 400,
+            height: 450,
             // height: MediaQuery.of(context).size.height /2,
             child: Stack(
               children: [
@@ -69,7 +67,7 @@ class _AccountPageState extends State<AccountPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             navigatorPush(context, TinEmPage());
                           },
                           child: ChoiceButton(
@@ -79,7 +77,7 @@ class _AccountPageState extends State<AccountPage> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             navigatorPush(context, RatingPage());
                           },
                           child: const ChoiceButton(
@@ -92,7 +90,7 @@ class _AccountPageState extends State<AccountPage> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             navigatorPush(context, ReviewPage());
                           },
                           child: ChoiceButton(
@@ -117,31 +115,38 @@ class _AccountPageState extends State<AccountPage> {
                   'Huy Nguyen',
                   style: TextStyle(fontWeight: FontWeight.w800, fontSize: 28),
                 ),
-                SizedBox(height: 16,),
+                SizedBox(
+                  height: 16,
+                ),
                 Text(
                   'About',
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
                 ),
                 Text(
-                  'I’m really loving the variety in all the photos on here. It’s like a Dr. Seuss book: One dead fish, two dead fish, red dead fish, blue dead fish.',
+                  'I’m really loving the variety in all the photos on here.',
                   style: TextStyle(fontSize: 18),
                 ),
-                SizedBox(height: 16,),
+                SizedBox(
+                  height: 16,
+                ),
                 Text(
                   'Interest',
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
                 ),
                 Container(
                   padding: EdgeInsets.all(5),
-                  margin: EdgeInsets.only(top: 4,right: 4),
+                  margin: EdgeInsets.only(top: 4, right: 4),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
-                    gradient: LinearGradient(colors: [
-                      Colors.red,
-                      Colors.blue,
-                    ])
+                      borderRadius: BorderRadius.circular(6),
+                      gradient: LinearGradient(colors: [
+                        Colors.red,
+                        Colors.blue,
+                      ])),
+                  child: Text(
+                    'Arena of Valor',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600, color: Colors.white),
                   ),
-                  child: Text('Arena of Valor' , style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),),
                 ),
               ],
             ),
