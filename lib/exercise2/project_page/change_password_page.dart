@@ -23,6 +23,13 @@ class _SwitchPasswordPageState extends State<SwitchPasswordPage> {
   final _newPasswordController = TextEditingController();
 
   @override
+  void dispose() {
+    _oldPasswordController.dispose();
+    _newPasswordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Change Password'),),

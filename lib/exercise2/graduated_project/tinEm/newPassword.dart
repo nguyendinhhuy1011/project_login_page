@@ -7,11 +7,12 @@ import 'package:homework2/common/const/build_button.dart';
 import 'package:homework2/common/const/keyboard.dart';
 import 'package:homework2/common/const/navigator.dart';
 import 'package:homework2/common/const/toast_overlay.dart';
-import 'package:homework2/exercise2/tinEm/bottom_navigation_page.dart';
-import 'package:homework2/exercise2/tinEm/update_account.dart';
-import 'package:homework2/exercise2/tinEm/signup_page.dart';
 
-import '../../common/const/choiceButton.dart';
+import 'package:homework2/service/api_service.dart';
+import 'package:homework2/service/user_service.dart';
+
+import 'bottom_navigation_page.dart';
+
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({Key? key}) : super(key: key);
@@ -157,8 +158,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         child: MyButton(
                           widthBtn: double.infinity,
                           heightBtn: 48,
-                          textButton: 'Save & Logout',
-                          onTap: save,
+                          textButton: 'Save',
+                          onTap: changePassword,
                           enable: value,
                         ),
                       );
@@ -230,12 +231,15 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
 
 
-  // void validatePassword() {
-  //   final password = _newPasswordController.text;
-  //   if (password.length >= 4 && password.length <= 8) {
-  //     _notifierNewPassInvalid.value = false;
-  //   } else {
-  //     _notifierNewPassInvalid.value = true;
-  //   }
-  // }
+  void changePassword(){
+    apiService.changePassword(
+      oldPassword: _oldPasswordController.text,
+      newPassword: _newPasswordController.text,
+    ).then((value) {
+      save();
+
+    }).catchError((e){
+      ToastOverlay(context).show(message: 'Errors occur: ${e.toString()}',type: ToastType.error);
+    });
+  }
 }

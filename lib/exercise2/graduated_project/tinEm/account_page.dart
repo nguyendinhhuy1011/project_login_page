@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homework2/common/const/choiceButton.dart';
 import 'package:homework2/common/const/navigator.dart';
+import 'package:homework2/common/const/progress_dialog.dart';
+import 'package:homework2/common/const/toast_overlay.dart';
+import 'package:homework2/exercise2/graduated_project/tinEm/rating_page.dart';
+import 'package:homework2/exercise2/graduated_project/tinEm/review/review_page/review_page.dart';
 import 'package:homework2/exercise2/project_page/profile_page.dart';
-import 'package:homework2/exercise2/tinEm/rating_page.dart';
-import 'package:homework2/exercise2/tinEm/review_page.dart';
-import 'package:homework2/exercise2/tinEm/gamerCard/tinEm_page.dart';
-import 'package:homework2/exercise2/tinEm/update_account.dart';
-import 'package:homework2/exercise2/tinEm/signin_page.dart';
+import 'package:homework2/service/api_service.dart';
+import 'package:homework2/service/user_service.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
-import '../../models/personal_setting.dart';
+import 'gamerCard/tinEm_page.dart';
+
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -20,8 +22,15 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
+  var url ='https://i.pinimg.com/564x/33/9c/a9/339ca9776cca209ce2b6b27da47b8d85.jpg';
+  String? name;
+  String? bio;
+
+  late ProgressDialog _progressDialog;
+
   @override
   void initState() {
+    uploadUser();
     super.initState();
   }
 
@@ -47,14 +56,14 @@ class _AccountPageState extends State<AccountPage> {
                 Padding(
                   padding: EdgeInsets.only(bottom: 45.0),
                   child: Container(
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(40),
                           bottomRight: Radius.circular(40),
                         ),
                         image: DecorationImage(
-                            image: AssetImage(
-                              'assets/images/avar.jpeg',
+                            image: NetworkImage(
+                              url,
                             ),
                             fit: BoxFit.cover)),
                   ),
@@ -72,8 +81,8 @@ class _AccountPageState extends State<AccountPage> {
                           },
                           child: ChoiceButton(
                             color: Theme.of(context).colorScheme.secondary,
-                            icon: LineAwesomeIcons.search,
-                            size: 30,
+                            icon: LineAwesomeIcons.firefox,
+                            size: 40,
                           ),
                         ),
                         GestureDetector(
@@ -112,7 +121,7 @@ class _AccountPageState extends State<AccountPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Huy Nguyen',
+                  name?? '',
                   style: TextStyle(fontWeight: FontWeight.w800, fontSize: 28),
                 ),
                 SizedBox(
@@ -123,7 +132,7 @@ class _AccountPageState extends State<AccountPage> {
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
                 ),
                 Text(
-                  'I’m really loving the variety in all the photos on here.',
+                  bio?? '...',
                   style: TextStyle(fontSize: 18),
                 ),
                 SizedBox(
@@ -155,77 +164,20 @@ class _AccountPageState extends State<AccountPage> {
       ),
     );
   }
-// Text(
-// 'Huy Nguyen',
-// style: GoogleFonts.lato(
-// color: Colors.white,
-// fontWeight: FontWeight.w700,
-// fontSize: 20),
-// ),
-// SizedBox(
-// height: 6,
-// ),
-// Text(
-// '0909408099',
-// style: GoogleFonts.lato(
-// color: Colors.white,
-// fontWeight: FontWeight.w700,
-// fontSize: 14,
-// fontStyle: FontStyle.italic),
-// ),
+  Future<void> uploadUser() async{
 
-// Widget buildSettings() {
-//   return Container(
-//     height: 300,
-//     child: ListView.separated(
-//       itemBuilder: (
-//         context,
-//         index,
-//       ) {
-//         final personalSetting = listSetting[index];
-//         return buildSetting(personalSetting);
-//       },
-//       separatorBuilder: (_, __) => SizedBox(
-//         height: 8,
-//       ),
-//       itemCount: listSetting.length,
-//     ),
-//   );
-// }
+    await apiService.getProfile().then((user) {
+      url = user.avatar?? 'https://i.pinimg.com/564x/33/9c/a9/339ca9776cca209ce2b6b27da47b8d85.jpg';
+      name = user.name?? '';
+      bio = user.address?? '';
 
-// Widget buildSetting(PersonalSetting personalSetting) {
-//   return GestureDetector(
-//     onTap: () {
-//       if (personalSetting.select == 'Update Profile') {
-//         navigatorPush(context, AccountPage());
-//       }
-//       if (personalSetting.select == 'Log out') {
-//         navigatorPushAndRemoveUntil(context, SignInPage());
-//       }
-//     },
-//     child: Container(
-//       margin: EdgeInsets.symmetric(horizontal: 38, vertical: 8),
-//       height: 52,
-//       decoration: BoxDecoration(
-//         borderRadius: BorderRadius.circular(16),
-//         color: Colors.greenAccent,
-//       ),
-//       child: Row(
-//         children: [
-//           SizedBox(
-//             width: 18,
-//           ),
-//           personalSetting.icon,
-//           SizedBox(
-//             width: 8,
-//           ),
-//           Text(
-//             personalSetting.select,
-//             style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
-//           ),
-//         ],
-//       ),
-//     ),
-//   );
-// }
+      setState(() {
+
+      });
+
+    }).catchError((e){
+      ToastOverlay(context).show(message: 'Errors occur: ${e.toString()}');
+    });
+  }
+
 }

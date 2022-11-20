@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:homework2/common/const/MyTextField2.dart';
 import 'package:homework2/common/const/build_button.dart';
 import 'package:homework2/common/const/navigator.dart';
-import 'package:homework2/exercise2/tinEm/bottom_navigation_page.dart';
+import 'package:homework2/common/const/toast_overlay.dart';
+import 'package:homework2/exercise2/graduated_project/tinEm/signin_page.dart';
+import 'package:homework2/exercise2/project_page/login_page.dart';
+
+import 'package:homework2/service/api_service.dart';
+import 'package:homework2/service/user_service.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -41,6 +46,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+
         body: buildBody(),
       ),
     );
@@ -68,6 +74,26 @@ class _SignUpPageState extends State<SignUpPage> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 24, top: 24),
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.of(context).pop();
+                            },
+                              child: Icon(Icons.arrow_back)),
+                        ),
+                      ),
+                    ],
+                  ),
                   buildLogo(),
                   MyTextField2(
                     controller: _nameController,
@@ -129,16 +155,18 @@ class _SignUpPageState extends State<SignUpPage> {
                           },
                         );
                       }),
+                  SizedBox(height: 16,),
 
                   ValueListenableBuilder<bool>(
                     valueListenable: notifier,
                     builder: (context, value, _) {
                       return MyButton(
-                        widthBtn: double.infinity,
+                        widthBtn: 180,
                         textButton: 'Sign Up',
                         enable: value,
                         onTap: () {
-                          navigatorPushAndRemoveUntil(context, BottomBarPage());
+                          register();
+                          navigatorPushAndRemoveUntil(context, SignInPage());
                         },
                       );
                     },
@@ -219,5 +247,21 @@ class _SignUpPageState extends State<SignUpPage> {
     } else {
       _notifierEmailInvalid.value = true;
     }
+  }
+
+  void register() {
+    apiService.register(
+      name: _nameController.text,
+      phone: _phoneController.text,
+      password: _passwordController.text,
+      email: _mailController.text
+    ).then((user) {
+      ToastOverlay(context).show(message: 'Register successfully\n'
+          'Welcome ${user.name}');
+
+      navigatorPushAndRemoveUntil(context, SignInPage());
+    }).catchError((e){
+      ToastOverlay(context).show(message: 'Errors occur ${e.toString()}',type: ToastType.error);
+    });
   }
 }

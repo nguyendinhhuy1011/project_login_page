@@ -69,7 +69,7 @@ class MyTextField2 extends StatelessWidget {
             ),
           ),
         ),
-        Padding(padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
+        Padding(padding: EdgeInsets.symmetric(horizontal: 24,vertical: 8),
           child: TextField(
             controller: controller,
             autofocus: autoFocus,

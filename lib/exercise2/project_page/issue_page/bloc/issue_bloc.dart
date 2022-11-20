@@ -7,14 +7,16 @@ import 'package:homework2/service/api_service.dart';
 import 'package:homework2/service/issue_service.dart';
 import 'package:homework2/util/main.dart';
 
-import '../../../models/issue.dart';
+import '../../../../models/issue.dart';
+
+
 
 class IssueBloc {
-  final _countStreamController = StreamController<int>();
-
-  Stream<int> get stream => _countStreamController.stream;
-
-  StreamSink<int> get sink => _countStreamController.sink;
+  // final _countStreamController = StreamController<int>();
+  //
+  // Stream<int> get stream => _countStreamController.stream;
+  //
+  // StreamSink<int> get sink => _countStreamController.sink;
 
   final _listIssueStreamController = StreamController<List<Issue>>();
 
@@ -27,7 +29,7 @@ class IssueBloc {
   final BuildContext context;
   final issues = <Issue>[];
   Issue? issue;
-  int count = 0;
+  // int count = 0;
 
   IssueBloc(this.context) {
     getIssues();
