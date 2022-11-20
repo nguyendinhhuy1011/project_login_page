@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:homework2/common/const/choiceButton.dart';
 import 'package:homework2/common/const/navigator.dart';
-import 'package:homework2/exercise2/tinEm/bottom_navigation_page.dart';
+
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
-import '../../../models/gamer_model.dart';
+import '../../../../models/gamer_model.dart';
+
+
 
 class GamerCard extends StatelessWidget {
   final GamerModel gamer;
@@ -48,10 +51,10 @@ class GamerCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(24),
                       gradient: LinearGradient(
                         colors: [
-                          Color.fromRGBO(6, 3, 40, 0.2),
-                          Colors.black12.withOpacity(0.9),
+                          Color.fromRGBO(41, 4, 82, 0.2),
+                          Colors.black12.withOpacity(0.8),
                         ],
-                        begin: Alignment.topCenter,
+                        begin: Alignment.topLeft,
                         end: Alignment.bottomCenter,
                         stops: [0.6,1]
                       )
@@ -102,18 +105,18 @@ class GamerCard extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Icon(
+                              const Icon(
                                 LineAwesomeIcons.crown,
                                 color: Colors.yellow,
                               ),
                               Text(' ${gamer.rank}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 18,
                                       color: Colors.white)),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
@@ -122,7 +125,7 @@ class GamerCard extends StatelessWidget {
                               SizedBox(width: 4,),
                               Expanded(
                                 child: Text('${gamer.bio}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.w300,
                                         fontStyle: FontStyle.italic,
                                         fontSize: 17,
@@ -160,5 +163,5 @@ class GamerCard extends StatelessWidget {
       ],
     );
   }
-
 }
+

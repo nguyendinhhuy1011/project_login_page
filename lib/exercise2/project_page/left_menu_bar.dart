@@ -4,7 +4,6 @@ import 'package:homework2/common/const/navigator.dart';
 import 'package:homework2/common/const/progress_dialog.dart';
 import 'package:homework2/common/const/toast_overlay.dart';
 import 'package:homework2/exercise2/project_page/issue_page.dart';
-import 'package:homework2/exercise2/issue_page/page/newFeed.dart';
 import 'package:homework2/exercise2/project_page/login_page.dart';
 import 'package:homework2/exercise2/project_page/profile_page.dart';
 import 'package:homework2/exercise2/project_page/report_page.dart';

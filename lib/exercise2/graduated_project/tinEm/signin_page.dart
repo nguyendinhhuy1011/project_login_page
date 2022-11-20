@@ -3,9 +3,14 @@ import 'package:homework2/common/const/MyTextField2.dart';
 import 'package:homework2/common/const/build_button.dart';
 import 'package:homework2/common/const/keyboard.dart';
 import 'package:homework2/common/const/navigator.dart';
-import 'package:homework2/exercise2/tinEm/bottom_navigation_page.dart';
-import 'package:homework2/exercise2/tinEm/update_account.dart';
-import 'package:homework2/exercise2/tinEm/signup_page.dart';
+import 'package:homework2/common/const/toast_overlay.dart';
+import 'package:homework2/common/widgets/hive_manager.dart';
+import 'package:homework2/common/widgets/shared_preference.dart';
+import 'package:homework2/exercise2/graduated_project/tinEm/signup_page.dart';
+import 'package:homework2/exercise2/graduated_project/tinEm/update_account.dart';
+import 'package:homework2/service/user_service.dart';
+
+import '../../../service/api_service.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -25,9 +30,12 @@ class _SignInPageState extends State<SignInPage> {
 
   var notifier = ValueNotifier<bool>(false);
 
+
   @override
   void initState() {
-    _phoneController.text = '0909408099';
+    sharePrefs.getString(phoneKey).then((value) {
+      _phoneController.text = value?? '';
+    });
     super.initState();
   }
 
@@ -59,10 +67,10 @@ class _SignInPageState extends State<SignInPage> {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: NetworkImage(
-            'https://congngheviet.com/wp-content/uploads/2017/10/iPhone-wallpaper-Violet-Gradient-alexmuench-768x1366.png'),
-        fit: BoxFit.cover,
-      )),
+            image: NetworkImage(
+                'https://congngheviet.com/wp-content/uploads/2017/10/iPhone-wallpaper-Violet-Gradient-alexmuench-768x1366.png'),
+            fit: BoxFit.cover,
+          )),
       child: GestureDetector(
         onTap: () => hideKeyboardAndUnFocus(context),
         child: SafeArea(
@@ -84,7 +92,7 @@ class _SignInPageState extends State<SignInPage> {
                             autoFocus: true,
                             keyboardType: TextInputType.phone,
                             errorText:
-                                _notifierPhoneInvalid.value ? _phoneError : null,
+                            _notifierPhoneInvalid.value ? _phoneError : null,
                             onChanged: (_) {
                               validate();
                               validatePhone();
@@ -102,34 +110,39 @@ class _SignInPageState extends State<SignInPage> {
                               hintText: 'Password',
                               keyboardType: TextInputType.text,
                               obscureText: true,
-                              errorText: _notifierPasswordInvalid.value==true ? _passError : null,
+                              errorText: _notifierPasswordInvalid.value == true
+                                  ? _passError
+                                  : null,
                               onChanged: (_) {
                                 validate();
                                 validatePassword();
                               },
                             );
                           }),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: MyButton(
-                              textButton: 'Sign Up',
-                              onTap: signUp,
-                              enable: true,
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: MyButton(
+                                textButton: 'Sign Up',
+                                onTap: signUp,
+                                enable: true,
+                              ),
                             ),
-                          ),
-                          Expanded(
-                              child: ValueListenableBuilder<bool>(
-                            valueListenable: notifier,
-                            builder: (context, value, _) {
-                              return MyButton(
-                                textButton: 'Sign In',
-                                onTap: signIn,
-                                enable: value,
-                              );
-                            },
-                          )),
-                        ],
+                            Expanded(
+                                child: ValueListenableBuilder<bool>(
+                                  valueListenable: notifier,
+                                  builder: (context, value, _) {
+                                    return MyButton(
+                                      textButton: 'Sign In',
+                                      onTap: signIn,
+                                      enable: value,
+                                    );
+                                  },
+                                )),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -173,8 +186,22 @@ class _SignInPageState extends State<SignInPage> {
     navigatorPush(context, SignUpPage());
   }
 
-  void signIn() {
-    navigatorPushAndRemoveUntil(context, BottomBarPage());
+  Future signIn() async{
+
+    apiService.login(
+        phone: _phoneController.text,
+        password: _passwordController.text).then((
+        user) {
+          sharePrefs.setString(phoneKey, _phoneController.text);
+          hive.setValue(userTokenKey, user.token);
+
+          ToastOverlay(context).show(message: 'Hello ${user.name}');
+          apiService.token = user.token?? '';
+          print('Token: ${user.token.toString()}');
+      navigatorPushAndRemoveUntil(context, UpdateAccount());
+    }).catchError((e){
+      ToastOverlay(context).show(message: e.toString());
+    });
   }
 
   void validate() {

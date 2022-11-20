@@ -190,8 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ToastOverlay(context).show(message: 'Hello ${user.name}');
 
       apiService.token = user.token ?? '';
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => ProfilePage()), (route) => false);
+      navigatorPushAndRemoveUntil(context, ProfilePage());
 
 
 

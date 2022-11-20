@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:homework2/exercise2/issue_page/bloc/issue_bloc.dart';
+
 import 'package:homework2/models/new_feed_model.dart';
 
 class NewFeedPage extends StatefulWidget {
