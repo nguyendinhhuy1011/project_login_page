@@ -192,7 +192,7 @@ class _RatingPageState extends State<RatingPage> {
               borderRadius: BorderRadius.circular(8),
             ),
 
-            height: 150,
+            height: 155,
             child: GridView.builder(
                 itemCount: reviews.photos?.length,
                 physics: NeverScrollableScrollPhysics(),
