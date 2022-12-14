@@ -3,16 +3,16 @@ import 'package:homework2/common/const/avatar.dart';
 import 'package:homework2/common/const/navigator.dart';
 import 'package:homework2/common/const/progress_dialog.dart';
 import 'package:homework2/common/const/toast_overlay.dart';
-import 'package:homework2/exercise2/project_page/issue_page.dart';
-import 'package:homework2/exercise2/project_page/login_page.dart';
-import 'package:homework2/exercise2/project_page/profile_page.dart';
-import 'package:homework2/exercise2/project_page/report_page.dart';
+import 'package:homework2/flutter_project/project_page/profile_page.dart';
+import 'package:homework2/flutter_project/project_page/report_page.dart';
 
 import 'package:homework2/models/personal_setting.dart';
 import 'package:homework2/service/api_service.dart';
 import 'package:homework2/service/user_service.dart';
 
 import 'change_password_page.dart';
+import 'issue_page.dart';
+import 'login_page.dart';
 
 
 class LeftMenuBar extends StatefulWidget {

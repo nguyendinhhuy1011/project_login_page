@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:homework2/common/widgets/flutter_secure_storage.dart';
 import 'package:homework2/common/const/navigator.dart';
-import 'package:homework2/exercise2/project_page/issue_page.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 

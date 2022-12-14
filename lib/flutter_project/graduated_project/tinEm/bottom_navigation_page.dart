@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:homework2/exercise2/graduated_project/tinEm/update_account.dart';
-
+import 'package:homework2/flutter_project/graduated_project/tinEm/update_account.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-
 import 'account_page.dart';
 import 'newPassword.dart';
 

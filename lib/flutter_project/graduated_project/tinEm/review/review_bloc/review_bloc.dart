@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:homework2/common/const/navigator.dart';
 import 'package:homework2/common/const/progress_dialog.dart';
 import 'package:homework2/common/const/toast_overlay.dart';
+import 'package:homework2/flutter_project/graduated_project/tinEm/bottom_navigation_page.dart';
 
 import 'package:homework2/service/api_service.dart';
 import 'package:homework2/service/review_service.dart';
@@ -50,6 +52,8 @@ class ReviewBloc {
   }
 
   Future<void> postReview({required ReviewData review}) async {
+    final progressDialog = ProgressDialog(context);
+    progressDialog.show();
     apiService
         .postReview(
             title: review.title ?? '',
@@ -61,7 +65,10 @@ class ReviewBloc {
       ToastOverlay(context).show(
           message: 'Feedback ${review.title} successfully',
           type: ToastType.success);
+      progressDialog.hide();
+      navigatorPushAndRemoveUntil(context, BottomBarPage());
     }).catchError((e) {
+      progressDialog.hide();
       _reviewStreamController.addError(e.toString());
       ToastOverlay(context).show(message: 'Errors occur ${e.toString()}');
       print('${e.toString()}');

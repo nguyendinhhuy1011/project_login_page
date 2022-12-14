@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:homework2/common/const/build_button.dart';
 import 'package:homework2/common/const/navigator.dart';
 import 'package:homework2/common/const/toast_overlay.dart';
-
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-
-import '../../exercise2/graduated_project/tinEm/bottom_navigation_page.dart';
+import '../../flutter_project/graduated_project/tinEm/bottom_navigation_page.dart';
 import 'choiceButton.dart';
 
 class OrderDialog extends StatelessWidget {
@@ -66,7 +64,7 @@ class OrderDialog extends StatelessWidget {
                             ToastOverlay(context).show(message: 'Order successfully'
                                 '\n'
                                 'We will contact you soon');
-                            navigatorPush(context, BottomBarPage());
+                            navigatorPushAndRemoveUntil(context, BottomBarPage());
                           },
                           child: ChoiceButton(
                             color: Colors.red,

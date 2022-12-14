@@ -3,9 +3,7 @@ import 'package:homework2/common/const/MyTextField2.dart';
 import 'package:homework2/common/const/build_button.dart';
 import 'package:homework2/common/const/navigator.dart';
 import 'package:homework2/common/const/toast_overlay.dart';
-import 'package:homework2/exercise2/graduated_project/tinEm/signin_page.dart';
-import 'package:homework2/exercise2/project_page/login_page.dart';
-
+import 'package:homework2/flutter_project/graduated_project/tinEm/signin_page.dart';
 import 'package:homework2/service/api_service.dart';
 import 'package:homework2/service/user_service.dart';
 
@@ -166,7 +164,6 @@ class _SignUpPageState extends State<SignUpPage> {
                         enable: value,
                         onTap: () {
                           register();
-                          navigatorPushAndRemoveUntil(context, SignInPage());
                         },
                       );
                     },

@@ -4,15 +4,13 @@ import 'package:homework2/common/const/choiceButton.dart';
 import 'package:homework2/common/const/navigator.dart';
 import 'package:homework2/common/const/progress_dialog.dart';
 import 'package:homework2/common/const/toast_overlay.dart';
-import 'package:homework2/exercise2/graduated_project/tinEm/rating_page.dart';
-import 'package:homework2/exercise2/graduated_project/tinEm/review/review_page/review_page.dart';
-import 'package:homework2/exercise2/project_page/profile_page.dart';
+import 'package:homework2/flutter_project/graduated_project/tinEm/rating_page.dart';
+import 'package:homework2/flutter_project/graduated_project/tinEm/review/review_page/review_page.dart';
 import 'package:homework2/service/api_service.dart';
 import 'package:homework2/service/user_service.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 import 'gamerCard/tinEm_page.dart';
-
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -22,11 +20,10 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-  var url ='https://i.pinimg.com/564x/33/9c/a9/339ca9776cca209ce2b6b27da47b8d85.jpg';
+  var url =
+      'https://i.pinimg.com/564x/33/9c/a9/339ca9776cca209ce2b6b27da47b8d85.jpg';
   String? name;
   String? bio;
-
-  late ProgressDialog _progressDialog;
 
   @override
   void initState() {
@@ -62,10 +59,10 @@ class _AccountPageState extends State<AccountPage> {
                           bottomRight: Radius.circular(40),
                         ),
                         image: DecorationImage(
-                            image: NetworkImage(
-                              url,
-                            ),
-                            fit: BoxFit.cover)),
+                          image: NetworkImage(url),
+                          fit: BoxFit.cover,
+                          filterQuality: FilterQuality.high,
+                        )),
                   ),
                 ),
                 Align(
@@ -121,7 +118,7 @@ class _AccountPageState extends State<AccountPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  name?? '',
+                  name ?? '',
                   style: TextStyle(fontWeight: FontWeight.w800, fontSize: 28),
                 ),
                 SizedBox(
@@ -132,7 +129,7 @@ class _AccountPageState extends State<AccountPage> {
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
                 ),
                 Text(
-                  bio?? '...',
+                  bio ?? '...',
                   style: TextStyle(fontSize: 18),
                 ),
                 SizedBox(
@@ -164,20 +161,20 @@ class _AccountPageState extends State<AccountPage> {
       ),
     );
   }
-  Future<void> uploadUser() async{
+
+  Future<void> uploadUser() async {
+    final progressDialog = ProgressDialog(context);
+    progressDialog.show();
 
     await apiService.getProfile().then((user) {
-      url = user.avatar?? 'https://i.pinimg.com/564x/33/9c/a9/339ca9776cca209ce2b6b27da47b8d85.jpg';
-      name = user.name?? '';
-      bio = user.address?? '';
+      url = user.avatar ?? url;
+      name = user.name ?? '';
+      bio = user.address ?? '';
 
-      setState(() {
-
-      });
-
-    }).catchError((e){
+      setState(() {});
+      progressDialog.hide();
+    }).catchError((e) {
       ToastOverlay(context).show(message: 'Errors occur: ${e.toString()}');
     });
   }
-
 }

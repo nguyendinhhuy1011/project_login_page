@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:homework2/common/const/choiceButton.dart';
+import 'package:homework2/common/const/navigator.dart';
 import 'package:homework2/common/const/orderDialog.dart';
+import 'package:homework2/flutter_project/graduated_project/tinEm/bottom_navigation_page.dart';
 
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:swipe_cards/swipe_cards.dart';
@@ -211,16 +213,7 @@ class _TinEmPageState extends State<TinEmPage> {
       imageUrl:
       'https://i.pinimg.com/564x/13/9b/39/139b39fad02173b9888797c76d3b8365.jpg',
     ),
-    GamerModel(
-      name: 'Chung Anh',
-      age: '22',
-      rating: 4.8,
-      rank: 'Tinh Anh',
-      game: 'League of Legend',
-      bio: '260',
-      imageUrl:
-      'https://scontent.fsgn5-5.fna.fbcdn.net/v/t39.30808-6/287112054_378881497551518_3178753256483131026_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=4edsOfdIlqwAX_09EhZ&tn=ZDCZgRMWGYH6ceSP&_nc_ht=scontent.fsgn5-5.fna&oh=00_AfDEMcfwTvUNuAf17YDOqQXqnaFJG_UGqNZjiHbn991EhA&oe=637EAC52',
-    ),
+
     GamerModel(
       name: 'Uyin Phan',
       age: '24',
@@ -332,16 +325,7 @@ class _TinEmPageState extends State<TinEmPage> {
       imageUrl:
       'https://i.pinimg.com/564x/3f/9c/76/3f9c76621557bdf2a507dc217a354571.jpg',
     ),
-    GamerModel(
-      name: 'Anh Tuyet',
-      age: '23',
-      rating: 4.7,
-      rank: 'Tinh Anh',
-      game: 'Arena Of Valor',
-      bio: '260',
-      imageUrl:
-      'https://i.pinimg.com/564x/59/f1/1f/59f11fa0a443f1ec0393437cdbdcdacd.jpg',
-    ),
+
     GamerModel(
       name: 'Thao Anh',
       age: '18',
@@ -472,16 +456,7 @@ class _TinEmPageState extends State<TinEmPage> {
       imageUrl:
       'https://i.pinimg.com/564x/88/7d/a2/887da2db15e6e78f37d8ea886f3c0ad2.jpg',
     ),
-    GamerModel(
-      name: 'Shin Cutie',
-      age: '23',
-      rating: 4.8,
-      rank: 'Tinh Anh',
-      game: 'Arena Of Valor',
-      bio: '270',
-      imageUrl:
-      'https://scontent.fsgn5-11.fna.fbcdn.net/v/t39.30808-6/300968630_181442384403447_1539980116939801848_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=szp8LwtOC3QAX-SE07G&_nc_ht=scontent.fsgn5-11.fna&oh=00_AfCxhKBimPYG22Zl0CbkGPRpMxl6ArVE7lfsWv88uQPAMA&oe=6387D09C',
-    ),
+
     GamerModel(
       name: 'Sunny',
       age: '25',
@@ -553,6 +528,10 @@ class _TinEmPageState extends State<TinEmPage> {
       ));
     }
     _matchEngine = MatchEngine(swipeItems: _swipeItems);
+    listGamers.shuffle();
+    print('list ${_swipeItems[0]}');
+    print('list ${_swipeItems[1]}');
+    print('list ${_swipeItems[2]}');
     super.initState();
   }
 
@@ -595,7 +574,7 @@ class _TinEmPageState extends State<TinEmPage> {
         children: [
           GestureDetector(
             onTap: () {
-              Navigator.of(context).pop();
+              navigatorPushAndRemoveUntil(context, BottomBarPage());
             },
             child: const ChoiceButton(
               color: Colors.red,

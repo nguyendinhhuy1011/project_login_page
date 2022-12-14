@@ -6,7 +6,6 @@ import 'package:homework2/common/const/choiceButton.dart';
 import 'package:homework2/common/const/const.dart';
 import 'package:homework2/common/const/progress_dialog.dart';
 import 'package:homework2/common/const/toast_overlay.dart';
-import 'package:homework2/exercise2/graduated_project/tinEm/review/review_bloc/review_bloc.dart';
 import 'package:homework2/service/api_service.dart';
 import 'package:homework2/service/photo_service.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,6 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 import '../../../../../models/reviewData.dart';
+import '../review_bloc/review_bloc.dart';
 
 class ReviewPage extends StatefulWidget {
   const ReviewPage({Key? key}) : super(key: key);

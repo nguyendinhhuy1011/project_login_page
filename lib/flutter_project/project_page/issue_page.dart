@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:homework2/exercise2/project_page/left_menu_bar.dart';
+
 import 'package:homework2/models/issue.dart';
 
 import 'issue_page/bloc/issue_bloc.dart';
+import 'left_menu_bar.dart';
 
 class IssuePage extends StatefulWidget {
   const IssuePage({Key? key}) : super(key: key);

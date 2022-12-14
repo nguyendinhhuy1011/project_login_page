@@ -24,7 +24,7 @@ class GamerCard extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 0, left: 20, right: 20),
           child: SizedBox(
-            height: 560,
+            height: MediaQuery.of(context).size.height * 0.6,
             child: Stack(
               children: [
                 Container(

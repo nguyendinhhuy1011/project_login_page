@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:homework2/common/const/avatar.dart';
 import 'package:homework2/common/const/navigator.dart';
-import 'package:homework2/exercise2/project_page/left_menu_bar.dart';
 import 'package:homework2/service/photo_service.dart';
 import 'package:homework2/service/user_service.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../../common/const/MyTextField2.dart';
 import '../../common/const/build_button.dart';
 import '../../common/const/const.dart';
 import '../../common/const/toast_overlay.dart';
 import '../../module/fcm/fcm_manager.dart';
 import '../../service/api_service.dart';
+import 'left_menu_bar.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);

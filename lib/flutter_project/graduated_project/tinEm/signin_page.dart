@@ -6,11 +6,12 @@ import 'package:homework2/common/const/navigator.dart';
 import 'package:homework2/common/const/toast_overlay.dart';
 import 'package:homework2/common/widgets/hive_manager.dart';
 import 'package:homework2/common/widgets/shared_preference.dart';
-import 'package:homework2/exercise2/graduated_project/tinEm/signup_page.dart';
-import 'package:homework2/exercise2/graduated_project/tinEm/update_account.dart';
+import 'package:homework2/flutter_project/graduated_project/tinEm/signup_page.dart';
+import 'package:homework2/flutter_project/graduated_project/tinEm/update_account.dart';
 import 'package:homework2/service/user_service.dart';
 
 import '../../../service/api_service.dart';
+import 'bottom_navigation_page.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -198,7 +199,7 @@ class _SignInPageState extends State<SignInPage> {
           ToastOverlay(context).show(message: 'Hello ${user.name}');
           apiService.token = user.token?? '';
           print('Token: ${user.token.toString()}');
-      navigatorPushAndRemoveUntil(context, UpdateAccount());
+      navigatorPushAndRemoveUntil(context, BottomBarPage());
     }).catchError((e){
       ToastOverlay(context).show(message: e.toString());
     });

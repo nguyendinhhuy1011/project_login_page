@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:homework2/common/const/MyTextField2.dart';
 import 'package:homework2/common/const/navigator.dart';
-import 'package:homework2/exercise2/my_Area/area_page.dart';
-import 'package:homework2/exercise2/my_area/select_area_bloc.dart';
+import 'package:homework2/flutter_project/my_area/select_area_bloc.dart';
+
+
 import 'package:homework2/models/area.dart';
 import 'package:homework2/service/api_service.dart';
 import 'package:homework2/service/area_service.dart';
+
+
 
 class CityPage extends StatefulWidget {
   final Function (Area, Area) onDone;
