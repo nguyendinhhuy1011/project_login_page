@@ -46,7 +46,7 @@ class _AccountPageState extends State<AccountPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: 450,
+            height: MediaQuery.of(context).size.height * 0.5,
             // height: MediaQuery.of(context).size.height /2,
             child: Stack(
               children: [
