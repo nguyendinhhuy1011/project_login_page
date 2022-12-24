@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:homework2/common/widgets/flutter_secure_storage.dart';
 import 'package:homework2/common/const/navigator.dart';
-
 import 'package:firebase_core/firebase_core.dart';
-
 import '../../common/widgets/hive_manager.dart';
 import '../../common/widgets/shared_preference.dart';
 import '../graduated_project/tinEm/signin_page.dart';
-import '../project_page/login_page.dart';
+
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);

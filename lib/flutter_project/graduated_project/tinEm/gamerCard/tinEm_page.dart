@@ -523,7 +523,8 @@ class _TinEmPageState extends State<TinEmPage> {
           //   print('$i');
           // }
         },
-        nopeAction: () {},
+        nopeAction: () {
+        },
         superlikeAction: () {},
       ));
     }

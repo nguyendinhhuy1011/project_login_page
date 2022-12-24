@@ -8,6 +8,7 @@ import 'package:homework2/common/widgets/hive_manager.dart';
 import 'package:homework2/common/widgets/shared_preference.dart';
 import 'package:homework2/flutter_project/graduated_project/tinEm/signup_page.dart';
 import 'package:homework2/flutter_project/graduated_project/tinEm/update_account.dart';
+import 'package:homework2/lifecycle/lifecycle.dart';
 import 'package:homework2/service/user_service.dart';
 
 import '../../../service/api_service.dart';
@@ -20,7 +21,7 @@ class SignInPage extends StatefulWidget {
   State<SignInPage> createState() => _SignInPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class _SignInPageState extends LifecycleState<SignInPage> {
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   final _phoneError = 'Phone number must has 10 digits';
@@ -233,4 +234,5 @@ class _SignInPageState extends State<SignInPage> {
       _notifierPasswordInvalid.value = true;
     }
   }
+
 }

@@ -23,7 +23,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   final _phoneError = 'Phone number must has 10 digits';
   final _passError = 'Password must be more than 4 digits and less than 8 digits';
-  final _mailError = 'Email must contain @gmail';
+  final _mailError = 'Email must contains @gmail.com';
 
   var _notifierPhoneInvalid = ValueNotifier<bool>(false);
   var _notifierPasswordInvalid = ValueNotifier<bool>(false);

@@ -23,8 +23,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(),
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
+      navigatorObservers: [routeObserver],
       themeMode: ThemeMode.dark,
       home: SplashPage(),
     );
   }
 }
+
+final routeObserver = RouteObserver<ModalRoute<void>>();
+
+
+
